@@ -185,10 +185,10 @@ google.com resolved to 142.250.201.46
 
 **🌞  Vous devez me rendre le show running-config de tous les équipements**
 
-[routeur](/TP4/routeur.md)
-[switch_1](/TP4/switch1.md)
-[switch_2](/TP4/switch2.md)
-[switch_3](/TP4/switch3.md)
+-[routeur](/TP4/routeur.md)
+-[switch_1](/TP4/switch1.md)
+-[switch_2](/TP4/switch2.md)
+-[switch_3](/TP4/switch3.md)
 
 **🌞  Mettre en place un serveur DHCP dans le nouveau bâtiment**
 
