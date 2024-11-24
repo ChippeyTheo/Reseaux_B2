@@ -3,8 +3,8 @@
 ## Etape 1 : Faire la topologie sur GNS3.
 
 **⚠️ Bien mettre les mêmes branchements que moi si vous ne voulez pas comprendre et copier bêtements l'étape 2**  
-image a venir
 
+![shéma de la topologie](/TP7/image_tp7.png)
 
 ## Etape 2 : Copier/Coller les confs.
 
