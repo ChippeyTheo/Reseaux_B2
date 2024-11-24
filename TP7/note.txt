@@ -1,0 +1,238 @@
+question: lacp mode "active" pas mieux?
+trunk encapsulation sert a quoi?
+
+
+conf t
+vlan 10
+name clients
+exit
+vlan 20
+name admins
+exit
+vlan 30
+name servers
+exit
+exit 
+sh vlan br
+
+conf t
+interface Ethernet0/0
+switchport trunk encapsulation dot1q
+switchport mode trunk
+switchport trunk allowed vlan add 10,20,30
+exit
+interface Ethernet0/1
+switchport trunk encapsulation dot1q
+switchport mode trunk
+switchport trunk allowed vlan add 10,20,30
+exit
+interface Ethernet0/2
+switchport trunk encapsulation dot1q
+switchport mode trunk
+switchport trunk allowed vlan add 10,20,30
+exit
+interface Ethernet0/3
+switchport trunk encapsulation dot1q
+switchport mode trunk
+switchport trunk allowed vlan add 10,20,30
+exit
+interface Ethernet1/0
+switchport trunk encapsulation dot1q
+switchport mode trunk
+switchport trunk allowed vlan add 10,20,30
+exit
+exit
+show interface trunk
+
+
+#routeur1
+conf t
+interface fastEthernet 1/0.10
+ip address 10.7.10.252 255.255.255.0
+no shut
+standby 10 ip 10.7.10.254
+standby 10 priority 150
+standby 10 preempt
+exit
+interface fastEthernet 1/0.20
+ip address 10.7.20.252 255.255.255.0
+no shut
+standby 20 ip 10.7.20.254
+standby 20 priority 150
+standby 20 preempt
+exit
+interface fastEthernet 1/0.30
+ip address 10.7.30.252 255.255.255.0
+no shutdown
+standby 30 ip 10.7.30.254
+standby 30 priority 100
+exit
+exit
+
+
+#routeur2
+conf t
+interface fastEthernet 1/0.10
+ip address 10.7.10.253 255.255.255.0
+no shutdown
+standby 10 ip 10.7.10.254
+standby 10 priority 100
+exit
+interface fastEthernet 1/0.20
+ip address 10.7.20.253 255.255.255.0
+no shutdown
+standby 20 ip 10.7.20.254
+standby 20 priority 100
+exit
+interface fastEthernet 1/0.30
+ip address 10.7.30.253 255.255.255.0
+no shut
+standby 30 ip 10.7.30.254
+standby 30 priority 150
+standby 30 preempt
+exit
+exit
+
+
+#lacp
+conf t
+interface Ethernet0/1
+channel-group 1 mode on 
+exit
+interface Ethernet0/2
+channel-group 1 mode on 
+exit
+interface port-channel 1
+switchport mode trunk
+switchport trunk allowed vlan 10,20,30
+exit
+exit
+
+conf t
+interface Ethernet0/0
+switchport trunk encapsulation dot1q
+switchport mode trunk
+switchport trunk allowed vlan add 10,20,30
+exit
+interface Ethernet0/3
+switchport trunk encapsulation dot1q
+switchport mode trunk
+switchport trunk allowed vlan add 10,20,30
+exit
+interface Ethernet1/0
+switchport trunk encapsulation dot1q
+switchport mode trunk
+switchport trunk allowed vlan add 10,20,30
+exit
+exit
+show interface trunk
+
+#routeur dns
+conf t
+ip dns server
+ip domain-lookup
+ip name-server 1.1.1.1
+
+#nat
+interface fastEthernet 1/0.10
+ip nat inside
+exit
+interface fastEthernet 1/0.20
+ip nat inside
+exit
+interface fastEthernet 1/0.30
+ip nat inside
+exit
+
+
+#acl
+#routeur 
+conf t
+access-list 30 permit 10.7.30.67
+access-list 30 deny 10.7.30.0 0.0.0.255
+access-list 30 permit any  
+interface fastEthernet1/0
+ip access-group 30 out            
+exit
+exit
+#sh run | b access-list 30
+
+
+
+conf t
+vlan 10
+name clients
+exit
+vlan 20
+name admins
+exit
+vlan 30
+name servers
+exit
+interface Ethernet0/0
+switchport trunk encapsulation dot1q
+switchport mode trunk
+switchport trunk allowed vlan add 10,20,30
+exit
+interface Ethernet0/1
+switchport trunk encapsulation dot1q
+switchport mode trunk
+switchport trunk allowed vlan add 10,20,30
+exit
+interface Ethernet0/2
+switchport trunk encapsulation dot1q
+switchport mode trunk
+switchport trunk allowed vlan add 10,20,30
+exit
+interface Ethernet0/3
+switchport trunk encapsulation dot1q
+switchport mode trunk
+switchport trunk allowed vlan add 10,20,30
+exit
+interface Ethernet1/0
+switchport trunk encapsulation dot1q
+switchport mode trunk
+switchport trunk allowed vlan add 10,20,30
+exit
+exit
+sh vlan br
+
+show interface trunk
+
+
+conf t
+vlan 10
+name clients
+exit
+vlan 20
+name admins
+exit
+vlan 30
+name servers
+exit
+interface range Ethernet 0/1 - 2
+channel-group 1 mode on 
+channel-protocol lacp
+exit
+interface port-channel 1
+switchport trunk encapsulation dot1q
+switchport mode trunk 
+switchport trunk allowed vlan add 10,20,30
+no shutdown
+exit
+interface Ethernet0/0
+switchport trunk encapsulation dot1q
+switchport mode trunk
+switchport trunk allowed vlan add 10,20,30
+exit
+interface Ethernet0/3
+switchport trunk encapsulation dot1q
+switchport mode trunk
+switchport trunk allowed vlan add 10,20,30
+exit
+interface Ethernet1/0
+switchport trunk encapsulation dot1q
+switchport mode trunk
+switchport trunk allowed vlan add 10,20,30
+exit
+exit
