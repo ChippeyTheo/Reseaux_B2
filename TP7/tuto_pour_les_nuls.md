@@ -332,4 +332,4 @@ show interface trunk
 
 
 
-## Etape 3 : Prier pour que ca marche sinon j'ai fait une erreur.
+## Etape 3 : Prier pour que ca marche sinon j'ai fait une erreur. + les bonus quand j'ai fini.
