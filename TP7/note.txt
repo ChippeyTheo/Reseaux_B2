@@ -321,3 +321,10 @@ ip address dhcp
 no shut
 exit
 exit
+
+
+
+conf t
+spanning-tree portfast bpduguard default
+spanning-tree portfast default
+exit

@@ -1,10 +1,12 @@
 # Tuto pour faire le TP7 sans réfléchir de trop.
 
+![intro](/IMG/coucou.png)
+
 ## Etape 1 : Faire la topologie sur GNS3.
 
 **⚠️ Bien mettre les mêmes branchements que moi si vous ne voulez pas comprendre et copier bêtements l'étape 2**  
 
-![shéma de la topologie](/TP7/IMG/image_tp7.png)
+![shéma de la topologie](/IMG/image_tp7.png)
 
 ## Etape 2 : Copier/Coller les confs.
 
@@ -83,7 +85,7 @@ exit
 
 - **switch 2**  
 *ℹ️ le switch 1 et 2 possède la même conf*
-
+![c'est pareil](/IMG/same-same.png)
 
 ```txt
 conf t
@@ -173,6 +175,7 @@ show interface trunk
 
 - **switch 4**  
 *ℹ️ le switch 3 et 4 possède la même conf*
+![c'est pareil](/IMG/same-same.png)
 
 ```txt
 conf t
@@ -458,3 +461,16 @@ exit
 exit
 
 ```
+
+### B. Spanning-tree:
+
+- **Sur tous les switchs**
+
+```txt
+conf t
+spanning-tree portfast bpduguard default
+spanning-tree portfast default
+exit
+
+```
+

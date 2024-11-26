@@ -4,7 +4,7 @@
 
 ### A. Topologie réseau
 
-![shéma de la topologie](/TP7/IMG/topologie-tp7.png)
+![shéma de la topologie](/IMG/topologie-tp7.png)
 
 ### B. Tableau d'adressage et C. Tableau des VLANs
 
@@ -73,3 +73,73 @@ exit
 ### B. Spanning-tree
 
 **🌞 Configuration de...**
+
+- BPDUGuard
+- PortFast
+
+```shell
+# Similaire sur les autres switchs
+IOU7#sh spanning-tree summary                
+Switch is in pvst mode
+Root bridge for: none
+Extended system ID                      is enabled
+Portfast Default                        is edge
+Portfast Edge BPDU Guard Default        is enabled
+```
+
+### C. Observe then destroy then observe
+
+**🌞 Vérifier, à l'aide de commandes dédiées**
+
+```shell
+R1#sh standby br
+                     P indicates configured to preempt.
+                     |
+Interface   Grp Prio P State    Active          Standby         Virtual IP     
+Fa1/0.10    10  150  P Active   local           10.7.10.253     10.7.10.254    
+Fa1/0.20    20  150  P Active   local           10.7.20.253     10.7.20.254    
+Fa1/0.30    30  100    Standby  10.7.30.253     local           10.7.30.254  
+
+IOU1#sh etherchannel summary 
+Flags:  D - down        P - bundled in port-channel
+        I - stand-alone s - suspended
+        H - Hot-standby (LACP only)
+        R - Layer3      S - Layer2
+        U - in use      N - not in use, no aggregation
+        f - failed to allocate aggregator
+
+        M - not in use, minimum links not met
+        m - not in use, port not aggregated due to minimum links not met
+        u - unsuitable for bundling
+        w - waiting to be aggregated
+        d - default port
+
+        A - formed by Auto LAG
+
+
+Number of channel-groups in use: 1
+Number of aggregators:           1
+
+Group  Port-channel  Protocol    Ports
+------+-------------+-----------+-----------------------------------------------
+1      Po1(SU)          -        Et0/1(P)    Et0/2(P)    
+```
+
+**🌞 Couper le routeur prioritaire**
+
+```shell
+84 bytes from 1.1.1.1 icmp_seq=37 ttl=59 time=131.810 ms
+84 bytes from 1.1.1.1 icmp_seq=38 ttl=59 time=58.984 ms
+84 bytes from 1.1.1.1 icmp_seq=39 ttl=59 time=129.648 ms
+1.1.1.1 icmp_seq=40 timeout
+1.1.1.1 icmp_seq=41 timeout
+1.1.1.1 icmp_seq=42 timeout
+1.1.1.1 icmp_seq=43 timeout
+84 bytes from 1.1.1.1 icmp_seq=44 ttl=59 time=114.136 ms
+84 bytes from 1.1.1.1 icmp_seq=45 ttl=59 time=116.249 ms
+84 bytes from 1.1.1.1 icmp_seq=46 ttl=59 time=173.280 ms
+```
+
+**🌞 Couper un switch crucial dans la topo STP**
+
+![CA MARCHEEEEEE](/IMG/image.png)
