@@ -4,7 +4,7 @@
 
 ### A. Topologie réseau
 
-![shéma de la topologie](/TP7/topologie-tp7.png)
+![shéma de la topologie](/TP7/IMG/topologie-tp7.png)
 
 ### B. Tableau d'adressage et C. Tableau des VLANs
 
@@ -12,15 +12,15 @@
 
 **🌞 show-run sur tous les équipements**
 
-- [routeur_1](/TP7/routeur1.md)
-- [routeur_2](/TP7/routeur2.md)
-- [switch_1](/TP7/swt1.md)
-- [switch_2](/TP7/swt2.md)
-- [switch_3](/TP7/swt3.md)
-- [switch_4](/TP7/swt4.md)
-- [switch_5](/TP7/swt5.md)
-- [switch_6](/TP7/swt6.md)
-- [switch_7](/TP7/swt7.md)
+- [routeur_1](/TP7/CONF/routeur1.md)
+- [routeur_2](/TP7/CONF/routeur2.md)
+- [switch_1](/TP7/CONF/swt1.md)
+- [switch_2](/TP7/CONF/swt2.md)
+- [switch_3](/TP7/CONF/swt3.md)
+- [switch_4](/TP7/CONF/swt4.md)
+- [switch_5](/TP7/CONF/swt5.md)
+- [switch_6](/TP7/CONF/swt6.md)
+- [switch_7](/TP7/CONF/swt7.md)
 
 **🌞 depuis pc4.tp7.b1**
 
@@ -49,3 +49,27 @@ ynov.com resolved to 104.26.10.233
 
 **🌞 Le réseau 10.7.30.0/24...**
 
+```txt
+conf t
+access-list 30 permit 10.7.30.67
+access-list 30 deny 10.7.30.0 0.0.0.255
+access-list 30 permit any  
+interface fastEthernet1/0
+ip access-group 30 out            
+exit
+interface fastEthernet1/0.10
+ip access-group 30 out            
+exit
+interface fastEthernet1/0.20
+ip access-group 30 out            
+exit
+interface fastEthernet1/0.30
+ip access-group 30 out            
+exit
+exit
+
+```
+
+### B. Spanning-tree
+
+**🌞 Configuration de...**

@@ -1,6 +1,8 @@
 question: lacp mode "active" pas mieux?
 trunk encapsulation sert a quoi?
-
+ACL je bloque les reponses du reseaux .30
+et pas la communication a .30
+et pourquoi 30.254 est joignable avec mon access-list?
 
 conf t
 vlan 10
@@ -154,8 +156,39 @@ access-list 30 permit any
 interface fastEthernet1/0
 ip access-group 30 out            
 exit
+interface fastEthernet1/0.10
+ip access-group 30 out            
+exit
+interface fastEthernet1/0.20
+ip access-group 30 out            
+exit
+interface fastEthernet1/0.30
+ip access-group 30 out            
+exit
 exit
 #sh run | b access-list 30
+
+
+
+
+
+conf t
+access-list 100 permit 10.7.30.67
+access-list 100 deny 10.7.30.0 0.0.0.255
+access-list 100 permit any  
+interface fastEthernet1/0
+ip access-group 100 out            
+exit
+interface fastEthernet1/0.10
+ip access-group 100 out            
+exit
+interface fastEthernet1/0.20
+ip access-group 100 out            
+exit
+interface fastEthernet1/0.30
+ip access-group 100 out            
+exit
+exit
 
 
 
@@ -234,5 +267,57 @@ interface Ethernet1/0
 switchport trunk encapsulation dot1q
 switchport mode trunk
 switchport trunk allowed vlan add 10,20,30
+exit
+exit
+
+
+
+
+
+
+
+
+conf t
+interface fastEthernet 0/0
+ip nat outside
+no shut
+exit
+interface fastEthernet 1/0
+ip nat inside
+no shut
+exit
+interface fastEthernet 1/0.10
+encapsulation dot1q 10
+ip address 10.7.10.253 255.255.255.0
+ip nat inside
+no shut
+standby 10 ip 10.7.10.254
+standby 10 priority 100
+exit
+interface fastEthernet 1/0.20
+encapsulation dot1q 20
+ip address 10.7.20.253 255.255.255.0
+ip nat inside
+no shut
+standby 20 ip 10.7.20.254
+standby 20 priority 100
+exit
+interface fastEthernet 1/0.30
+encapsulation dot1q 30
+ip address 10.7.30.253 255.255.255.0
+ip nat inside
+no shutdown
+standby 30 ip 10.7.30.254
+standby 30 priority 150
+standby 30 preempt
+exit
+access-list 1 permit any
+ip nat inside source list 1 interface fastEthernet 0/0 overload
+ip dns server
+ip domain-lookup
+ip name-server 1.1.1.1
+interface fastEthernet 0/0
+ip address dhcp
+no shut
 exit
 exit
